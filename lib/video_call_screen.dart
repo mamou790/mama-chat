@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import 'video_call_screen.dart';
+
 const appId = "719fd6ed3ca64eb7aaf70e13614c2ec0";
 const channel = "mama_channel"; // اسم الغرفة
 const token = "";
 
 class VideoCallScreen extends StatefulWidget {
-  const VideoCallScreen({Key? key}) : super(key: key);
+  const VideoCallScreen({super.key});
 
   @override
   _VideoCallScreenState createState() => _VideoCallScreenState();
@@ -30,10 +32,12 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
     // إنشاء محرك أغورا
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
-      appId: appId,
-      channelProfile: ChannelProfileType.channelProfileCommunication,
-    ));
+    await _engine.initialize(
+      const RtcEngineContext(
+        appId: appId,
+        channelProfile: ChannelProfileType.channelProfileCommunication,
+      ),
+    );
 
     _engine.registerEventHandler(
       RtcEngineEventHandler(
@@ -73,9 +77,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       appBar: AppBar(title: const Text('مكالمة فيديو مع ماما')),
       body: Stack(
         children: [
-          Center(
-            child: _remoteVideo(),
-          ),
+          Center(child: _remoteVideo()),
           Align(
             alignment: Alignment.topLeft,
             child: SizedBox(
