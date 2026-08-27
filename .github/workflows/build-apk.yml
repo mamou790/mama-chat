@@ -7,8 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CI: "true"
 
     steps:
       - name: Checkout repository
@@ -26,13 +24,11 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Run Flutter pre-commands
+      - name: Accept Flutter conditions & Get packages
         run: |
           flutter --version
           flutter config --no-analytics
-
-      - name: Get Flutter dependencies
-        run: flutter pub get
+          flutter pub get
 
       - name: Build APK Release
         run: flutter build apk --release
