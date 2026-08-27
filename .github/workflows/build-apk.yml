@@ -24,10 +24,13 @@ jobs:
           flutter-version: '3.22.0'
           channel: 'stable'
 
-      - name: Get Flutter dependencies
+      - name: Accept Android licenses and configure
         run: |
+          flutter doctor --android-licenses || true
           flutter config --no-analytics
-          flutter pub get
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
 
       - name: Build APK Release
         run: flutter build apk --release
