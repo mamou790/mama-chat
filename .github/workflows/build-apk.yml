@@ -25,7 +25,9 @@ jobs:
           channel: 'stable'
 
       - name: Get Flutter dependencies
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter pub get
 
       - name: Build APK Release
         run: flutter build apk --release
