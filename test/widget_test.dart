@@ -1,30 +1,121 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:mama_chat/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  runApp(const MamaChatApp());
+}
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+class MamaChatApp extends StatelessWidget {
+  const MamaChatApp({super.key});
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Mama Chat Video Call',
+      theme: ThemeData(brightness: Brightness.dark, primarySwatch: Colors.blue),
+      home: const VideoCallScreen(),
+    );
+  }
+}
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+class VideoCallScreen extends StatelessWidget {
+  const VideoCallScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF1E1E1E),
+      body: Stack(
+        children: [
+          // شاشة الشخص الآخر (تأخذ المساحة كاملة)
+          Positioned.fill(
+            child: Container(
+              color: const Color(0xFF2C2C2C),
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blueAccent,
+                      child: Icon(Icons.person, size: 60, color: Colors.white),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'سارة أحمد',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'جاري الاتصال... 00:15',
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // كاميرتك الشخصية (صغيرة في الزاوية العلوية اليمنى)
+          Positioned(
+            top: 50,
+            right: 20,
+            child: Container(
+              width: 100,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white24, width: 2),
+              ),
+              child: const Center(
+                child: Icon(Icons.videocam, color: Colors.white54, size: 30),
+              ),
+            ),
+          ),
+
+          // أزرار التحكم في المكالمة في الأسفل (كتم، إنهاء، قلب الكاميرا)
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // زر كتم الصوت
+                FloatingActionButton(
+                  heroTag: 'mic',
+                  backgroundColor: Colors.grey[800],
+                  onPressed: () {},
+                  child: const Icon(Icons.mic, color: Colors.white),
+                ),
+                const SizedBox(width: 20),
+
+                // زر إنهاء المكالمة باللون الأحمر
+                FloatingActionButton(
+                  heroTag: 'endCall',
+                  backgroundColor: Colors.red,
+                  onPressed: () {},
+                  child: const Icon(Icons.call_end, color: Colors.white),
+                ),
+                const SizedBox(width: 20),
+
+                // زر قلب الكاميرا
+                FloatingActionButton(
+                  heroTag: 'camera',
+                  backgroundColor: Colors.grey[800],
+                  onPressed: () {},
+                  child: const Icon(Icons.switch_camera, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
